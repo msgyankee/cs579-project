@@ -12,6 +12,7 @@
     <ul></ul>
 
     <form id="said">
+        <input id="name" placeholder="Alias" value="Anon">
         <input id="say">
         <input id="speak" type="submit" value="speak">
     </form>
@@ -36,7 +37,7 @@
     $('#said').on('submit', function(e){
       e.preventDefault();
       if(!user.is){ return }
-      user.get('said').set($('#say').val());
+      user.get('said').set($('#name').val() + ': ' + $('#say').val());
       $('#say').val("");
     });
 
