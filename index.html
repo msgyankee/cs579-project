@@ -1,20 +1,50 @@
 <html>
-  <body>
-    <h1>Todo</h1>
+  <head>
 
+    <title>CS 579 Chatrooms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+    <style>
+      ul{
+        list-style-type: none;
+        width: 50%;
+        margin-left: 25%
+      }
+
+      li{
+        border: 1px solid;
+        border-radius: 16px;
+        padding: 10px;
+        margin: 5px;
+      }
+
+      h1{
+        text-align: center;
+      }
+
+      form{
+        text-align: center;
+      }
+
+    </style>
+  </head> 
+
+  <body>
+    <h1 id="header">Log into a Chatroom!</h1>
+    <br/>
     <form id="sign">
-      <input id="alias" placeholder="username">
+      <input id="alias" placeholder="Chatroom">
       <input id="pass" type="password" placeholder="passphrase">
-      <input id="in" type="submit" value="sign in">
-      <input id="up" type="button" value="sign up">
+      <input id="in" type="submit" value="Log In">
+      <input id="up" type="button" value="Create">
     </form>
 
     <ul></ul>
 
-    <form id="said">
+    <form id="said" style="display: none;">
         <input id="name" placeholder="Alias" value="Anon">
-        <input id="say">
-        <input id="speak" type="submit" value="speak">
+        <input id="say" placeholder="Message">
+        <input id="speak" type="submit" value="Send">
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
@@ -39,17 +69,24 @@
       if(!user.is){ return }
       user.get('said').set($('#name').val() + ': ' + $('#say').val());
       $('#say').val("");
+      
     });
 
     function UI(say, id){
       var li = $('#' + id).get(0) || $('<li>').attr('id', id).appendTo('ul');
       $(li).text(say);
+      window.scrollTo(0,document.body.scrollHeight);
     };
 
     gun.on('auth', function(){
       $('#sign').hide();
+      $('#said').show();
+      $('#header').text($('#alias').val());
       user.get('said').map().once(UI);
     });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+
   </body>
 </html>
